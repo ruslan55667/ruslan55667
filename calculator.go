@@ -142,6 +142,7 @@ func main() {
 			}
 		} else {
 			fmt.Println("Числа должны быть либо арабскими, либо римскими")
+			panic()
 			continue
 		}
 
