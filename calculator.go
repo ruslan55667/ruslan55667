@@ -16,7 +16,6 @@ var romanToInt = map[string]int{
 
 var intToRoman = []string{"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"}
 
-
 func romanToInteger(s string) (int, error) {
 	value, exists := romanToInt[s]
 	if !exists {
@@ -24,7 +23,6 @@ func romanToInteger(s string) (int, error) {
 	}
 	return value, nil
 }
-
 
 func integerToRoman(num int) (string, error) {
 	if num <= 0 {
@@ -35,7 +33,6 @@ func integerToRoman(num int) (string, error) {
 		return intToRoman[num-1], nil
 	}
 
-	
 	roman := ""
 	if num >= 100 {
 		roman += "C"
@@ -64,7 +61,6 @@ func integerToRoman(num int) (string, error) {
 	return roman, nil
 }
 
-
 func calculate(a, b int, op string) (int, error) {
 	switch op {
 	case "+":
@@ -83,12 +79,10 @@ func calculate(a, b int, op string) (int, error) {
 	}
 }
 
-
 func isRoman(s string) bool {
 	_, exists := romanToInt[s]
 	return exists
 }
-
 
 func isArabic(s string) bool {
 	_, err := strconv.Atoi(s)
@@ -105,14 +99,12 @@ func main() {
 		if scanner.Scan() {
 			input = scanner.Text()
 		} else {
-			fmt.Println("Ошибка чтения ввода")
-			continue
+			panic("Ошибка чтения ввода")
 		}
 
 		parts := strings.Split(input, " ")
 		if len(parts) != 3 {
-			fmt.Println("Неправильный ввод. Формат: a Операция b")
-			continue
+			panic("Неправильный ввод. Формат: a Операция b")
 		}
 
 		a := parts[0]
@@ -124,39 +116,32 @@ func main() {
 		if isRoman(a) && isRoman(b) {
 			numA, err = romanToInteger(a)
 			if err != nil {
-				fmt.Println(err)
-				continue
+				panic(err.Error())
 			}
 			numB, err = romanToInteger(b)
 			if err != nil {
-				fmt.Println(err)
-				continue
+				panic(err.Error())
 			}
 		} else if isArabic(a) && isArabic(b) {
 			numA, _ = strconv.Atoi(a)
 			numB, _ = strconv.Atoi(b)
 
 			if numA < 1 || numA > 10 || numB < 1 || numB > 10 {
-				fmt.Println("Арабские числа должны быть в диапазоне от 1 до 10")
-				continue
+				panic("Арабские числа должны быть в диапазоне от 1 до 10")
 			}
 		} else {
-			fmt.Println("Числа должны быть либо арабскими, либо римскими")
-			panic()
-			continue
+			panic("Числа должны быть либо арабскими, либо римскими")
 		}
 
 		result, err := calculate(numA, numB, op)
 		if err != nil {
-			fmt.Println(err)
-			continue
+			panic(err.Error())
 		}
 
 		if isRoman(a) && isRoman(b) {
 			romanResult, err := integerToRoman(result)
 			if err != nil {
-				fmt.Println(err)
-				continue
+				panic(err.Error())
 			}
 			fmt.Printf("Результат: %s\n", romanResult)
 		} else {
